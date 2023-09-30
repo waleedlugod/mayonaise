@@ -13,9 +13,6 @@ if __name__ == "__main__":
         strings[key_idx] = GuitarString(440 * 1.059463 ** (key_idx - 12))
 
     activeStrings = set()
-    cullStrings = set()
-
-    min = 1
 
     n_iters = 0
     while True:
