@@ -2,6 +2,7 @@ from guitarstring import GuitarString
 from stdaudio import play_sample
 import stdkeys
 
+
 if __name__ == "__main__":
     keyboard = "q2we4r5ty7u8i9op-[=]"
     stdkeys.create_window()
@@ -11,17 +12,30 @@ if __name__ == "__main__":
     for key_idx in range(len(keyboard)):
         strings[key_idx] = GuitarString(440 * 1.059463 ** (key_idx - 12))
 
-    strings[0].pluck()
-    i = 0
+    activeStrings = set()
+    cullStrings = set()
+
+    min = 1
+
+    n_iters = 0
     while True:
-        print(i)
-        i += 1
+        if n_iters == 1000:
+            stdkeys.poll()
+            n_iters = 0
+        n_iters += 1
+
         if stdkeys.has_next_key_typed():
             key = stdkeys.next_key_typed()
-            if key == "a":
-                play_sample(0.5)
-                # strings[0].pluck()
+            index = keyboard.find(key)
+            if index != -1:
+                strings[index].pluck()
+                activeStrings.add(strings[index])
 
-        # play_sample(strings[0].sample())
+        sample = 0
+        for string in activeStrings:
+            sample += string.sample()
 
-        # strings[0].tick()
+        play_sample(sample)
+
+        for string in activeStrings:
+            string.tick()
