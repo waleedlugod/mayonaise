@@ -4,7 +4,9 @@ import stdkeys
 
 
 if __name__ == "__main__":
+    # set of keys
     keyboard = "q2we4r5ty7u8i9op-[=]"
+    # initalize window
     stdkeys.create_window()
 
     #  create strings
