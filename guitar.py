@@ -8,14 +8,16 @@ if __name__ == "__main__":
     keyboard = "q2we4r5ty7u8i9op-[=]"
     # initalize window
     stdkeys.create_window()
+    # maximum amount of ticks since string was last plucked
+    MAX_TICKS = 80000
 
-    #  create strings
+    # create strings
     strings = [None] * len(keyboard)
-    for key_idx in range(len(keyboard)):
+    for key_idx in range(strings):
         strings[key_idx] = GuitarString(440 * 1.059463 ** (key_idx - 12))
 
     # strings being simulated
-    activeStrings = set()
+    plucked_strings = set()
 
     n_iters = 0
     while True:
@@ -28,25 +30,27 @@ if __name__ == "__main__":
         # process typed keys
         if stdkeys.has_next_key_typed():
             key = stdkeys.next_key_typed()
-            index = keyboard.find(key)
-            if index != -1:
-                strings[index].pluck()
-                activeStrings.add(strings[index])
+            # if pressed key is part of keyboard, pluck corresponding string
+            key_index = keyboard.find(key)
+            if key_index != -1:
+                strings[key_index].pluck()
+                plucked_strings.add(strings[key_index])
 
         # compute superposition of samples and cull simulated strings
         sample = 0
-        newActiveStrings = activeStrings.copy()
-        for string in activeStrings:
+        new_plucked_strings = plucked_strings.copy()
+        for string in plucked_strings:
+            # add to total sample
             sample += string.sample()
-
-            # stop simulating string after 80000 ticks have passed since it was first plucked
-            if string.ticks_after_plucked() > 80000:
-                newActiveStrings.remove(string)
-        activeStrings = newActiveStrings
+            # stop simulating string after max ticks have passed since it was first plucked
+            if string.ticks_after_plucked() > MAX_TICKS:
+                new_plucked_strings.remove(string)
+        # update currently simulated strings
+        plucked_strings = new_plucked_strings
 
         # play sample
         play_sample(sample)
 
         # advance simulation of currently active strings
-        for string in activeStrings:
+        for string in plucked_strings:
             string.tick()
