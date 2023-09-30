@@ -4,7 +4,7 @@ from guitarstring import GuitarString
 from stdaudio import play_sample
 import stdkeys
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # initialize window
     stdkeys.create_window()
 
@@ -16,7 +16,7 @@ if __name__ == '__main__':
     n_iters = 0
     while True:
         # it turns out that the bottleneck is in polling for key events
-        # for every iteration, so we'll do it less often, say every 
+        # for every iteration, so we'll do it less often, say every
         # 1000 or so iterations
         if n_iters == 1000:
             stdkeys.poll()
@@ -26,9 +26,9 @@ if __name__ == '__main__':
         # check if the user has typed a key; if so, process it
         if stdkeys.has_next_key_typed():
             key = stdkeys.next_key_typed()
-            if key == 'a':
+            if key == "a":
                 string_A.pluck()
-            elif key == 'c':
+            elif key == "c":
                 string_C.pluck()
 
         # compute the superposition of samples

@@ -9,13 +9,11 @@ class GuitarString:
         """
         Create a guitar string of the given frequency, using a sampling rate of 44100 Hz
         """
-        # TO-DO: implement this
         self.ticks = 0
         self.capacity = ceil(44100 / frequency)
-        # TO-DO: compute the max capacity of the ring buffer based on the frequency
-        self.buffer = RingBuffer(
-            self.capacity
-        )  # TO-DO: construct the ring buffer object
+        self.buffer = RingBuffer(self.capacity)
+        while not self.buffer.is_full():
+            self.buffer.enqueue(0)
 
     @classmethod
     def make_from_array(cls, init: list[int]):
@@ -34,10 +32,9 @@ class GuitarString:
         """
         Set the buffer to white noise
         """
-        for x in self.buffer:
-            self.buffer[x] = random.uniform(1, -1 / 2, 1 / 2)
-        # self.buffer = random.uniform( self.capacity-1,-1/2, 1/2)
-        # TO-DO: implement this
+        for x in range(self.buffer.size()):
+            self.buffer.dequeue()
+            self.buffer.enqueue(random.uniform(-1 / 2, 1 / 2))
 
     def tick(self):
         """
@@ -47,7 +44,6 @@ class GuitarString:
         num1 = self.buffer.dequeue()
         num2 = self.buffer.peek()
         self.buffer.enqueue((num1 + num2) * 0.996 / 2)
-        # TO-DO: implement this
 
     def sample(self) -> float:
         """
