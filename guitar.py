@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
         # compute superposition of samples and cull simulated strings
         sample = 0
+        # new variable since can't remove elements from a set while being iterated through
         new_plucked_strings = plucked_strings.copy()
         for string in plucked_strings:
             # add to total sample
