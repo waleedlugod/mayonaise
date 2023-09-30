@@ -32,8 +32,12 @@ if __name__ == "__main__":
                 activeStrings.add(strings[index])
 
         sample = 0
+        newActiveStrings = activeStrings.copy()
         for string in activeStrings:
             sample += string.sample()
+            if string.ticks_after_plucked() > 80000:
+                newActiveStrings.remove(string)
+        activeStrings = newActiveStrings
 
         play_sample(sample)
 
