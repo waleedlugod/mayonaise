@@ -11,16 +11,13 @@ class RingBuffer:
         self._front = -1
         self._rear = -1
         self.buffer = [None] * capacity
+        self.bufferSize = 0
 
     def size(self) -> int:
         """
         Return number of items currently in the buffer
         """
-        size = 0
-        for x in self.buffer:
-            if x != None:
-                size += 1
-        return size
+        return self.bufferSize
         """
         if self._rear > self._front:
             return (self._rear-self._front+1)
@@ -60,6 +57,7 @@ class RingBuffer:
             self._rear += 1
 
         self.buffer[self._rear] = x
+        self.bufferSize += 1
 
     def dequeue(self) -> float:
         """
@@ -78,6 +76,8 @@ class RingBuffer:
             self._front = 0
         else:
             self._front += 1
+
+        self.bufferSize -= 1
 
         return to_remove
 
