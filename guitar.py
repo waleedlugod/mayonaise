@@ -39,15 +39,12 @@ if __name__ == "__main__":
         # compute superposition of samples and cull simulated strings
         sample = 0
         # new variable since can't remove elements from a set while being iterated through
-        new_plucked_strings = plucked_strings.copy()
-        for string in plucked_strings:
+        for string in plucked_strings.copy():
             # add to total sample
             sample += string.sample()
             # stop simulating string after max ticks have passed since it was first plucked
             if string.ticks_after_plucked() > MAX_TICKS:
-                new_plucked_strings.remove(string)
-        # update currently simulated strings
-        plucked_strings = new_plucked_strings
+                plucked_strings.remove(string)
 
         # play sample
         play_sample(sample)
