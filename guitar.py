@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     # create strings
     strings = [None] * len(keyboard)
-    for key_idx in range(strings):
+    for key_idx in range(len(strings)):
         strings[key_idx] = GuitarString(440 * 1.059463 ** (key_idx - 12))
 
     # strings being simulated
