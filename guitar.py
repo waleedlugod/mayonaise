@@ -32,7 +32,7 @@ if __name__ == "__main__":
             key = stdkeys.next_key_typed()
             # if pressed key is part of keyboard, pluck corresponding string
             key_index = keyboard.find(key)
-            if key_index != -1:
+            if key_index != -1 and key != "":
                 strings[key_index].pluck()
                 plucked_strings.add(strings[key_index])
 
